@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthEngineAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191105104313_Add DocPat")]
-    partial class AddDocPat
+    [Migration("20240306084405_initial-migration")]
+    partial class initialmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,6 +29,18 @@ namespace HealthEngineAPI.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<int>("Age")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("AppointmentFee")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("BloodGroupId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClinicAddress")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -36,8 +48,8 @@ namespace HealthEngineAPI.Migrations
                     b.Property<string>("ConfirmPassword")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DOB")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("DOB")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(256)")
@@ -46,16 +58,25 @@ namespace HealthEngineAPI.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int>("Experience")
+                        .HasColumnType("int");
+
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Gender")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsConfirmed")
-                        .HasColumnType("bit");
+                    b.Property<string>("GraduatedFrom")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Height")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LicenseNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -64,6 +85,12 @@ namespace HealthEngineAPI.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<string>("MasterFrom")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MasterIn")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("NormalizedEmail")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
@@ -71,6 +98,9 @@ namespace HealthEngineAPI.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
+
+                    b.Property<int>("OTP")
+                        .HasColumnType("int");
 
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
@@ -84,8 +114,26 @@ namespace HealthEngineAPI.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime>("RecordedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("ReferralBonus")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SpecialityId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StateId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalConsultations")
+                        .HasColumnType("int");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -93,6 +141,9 @@ namespace HealthEngineAPI.Migrations
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
+
+                    b.Property<decimal>("Weight")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -107,40 +158,252 @@ namespace HealthEngineAPI.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("HealthEngineAPI.Models.DoctorDetails", b =>
+            modelBuilder.Entity("HealthEngineAPI.Models.Appointment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DoctorId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FromTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PatientId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ToTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Appointments");
+                });
+
+            modelBuilder.Entity("HealthEngineAPI.Models.AppointmentRating", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AppointmentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DoctorId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PatientId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppointmentRatings");
+                });
+
+            modelBuilder.Entity("HealthEngineAPI.Models.AppointmentReschedule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AppointmentId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("NewDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NewFromTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NewToTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("OldDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("OldFromTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OldToTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppointmentReschedules");
+                });
+
+            modelBuilder.Entity("HealthEngineAPI.Models.BloodGroup", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BloodGroups");
+                });
+
+            modelBuilder.Entity("HealthEngineAPI.Models.DoctorDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("AppointmentFee")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("ClinicAddress")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("LicenseNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProvinceId")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("RecordedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("SpecialityId")
                         .HasColumnType("int");
+
+                    b.Property<int>("StateId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("DoctorDetails");
                 });
 
-            modelBuilder.Entity("HealthEngineAPI.Models.PatientDetails", b =>
+            modelBuilder.Entity("HealthEngineAPI.Models.DoctorRecurringSchedule", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ProvinceId")
+                    b.Property<string>("DoctorId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FromTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsFri")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsMon")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsSatur")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsSun")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsThurs")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsTues")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsWednes")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("RecordedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ToTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DoctorRecurringSchedules");
+                });
+
+            modelBuilder.Entity("HealthEngineAPI.Models.PatientDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("StateId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.ToTable("PatientDetails");
+                });
+
+            modelBuilder.Entity("HealthEngineAPI.Models.Specialitie", b =>
+                {
+                    b.Property<int>("SpecialitieId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("SpecialityName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("SpecialitieId");
+
+                    b.ToTable("Specialities");
+                });
+
+            modelBuilder.Entity("HealthEngineAPI.Models.State", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("StateName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("States");
+                });
+
+            modelBuilder.Entity("HealthEngineAPI.Models.SubSpecialitie", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("SpecialitieId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SubSpecialityName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SpecialitieId");
+
+                    b.ToTable("SubSpecialities");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -272,6 +535,15 @@ namespace HealthEngineAPI.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("HealthEngineAPI.Models.SubSpecialitie", b =>
+                {
+                    b.HasOne("HealthEngineAPI.Models.Specialitie", "Specialities")
+                        .WithMany("SubSpecialities")
+                        .HasForeignKey("SpecialitieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

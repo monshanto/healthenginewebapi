@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -25,8 +26,9 @@ namespace HealthEngineAPI.Models
     public class SubSpecialitie
     {
         public int Id { get; set; }
-        public string SubSpecialityName { get; set; }
+        public string SubSpecialityName { get; set; } 
         public int SpecialitieId { get; set; }
+        [ForeignKey("SpecialitieId")]
         public Specialitie Specialities { get; set; }
     }
 
